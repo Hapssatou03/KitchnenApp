@@ -26,8 +26,18 @@ function getRecette() {
   );
 
   let html = "";
-  if (searchInputxt === data) {
-    console.log();
+
+  if (data.meal) {
+    data.meal.forEach((meals) => {
+      html += `<div class="card">
+<div class="meal" ${meals.strMeal}> </div>
+<div class=${meals}> </div>
+<div class=""> 
+    <img src=${meals.png} alt="" srcset="">
+</div>
+<div class=""></div>
+</div> `;
+    });
   }
 }
 
