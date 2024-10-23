@@ -1,4 +1,49 @@
-*{
+body{
     margin: 0;
     padding: 0;
+    background-color: #ffc4fb;
+   
+  
 }
+
+.container{
+
+    margin: 8%;
+    
+  
+}
+
+img{
+    margin: 20px;
+    width: 5rem;
+    height: 5rem;
+}
+
+button{
+    
+    float: right;
+   border-radius: 20px;
+    font-size: 2rem;
+    padding: 3rem 6rem;
+    border-radius: 0.7rem;
+    color: white;
+    background-color: orangered;
+    cursor: pointer;
+    margin: 20px;
+ 
+}
+
+/* background-image: url(https://cdn.pixabay.com/photo/2017/03/27/13/54/bread-2178874_640.jpg,), repeat; */
+p{
+    margin-top : 60px;
+    font-size: 22px;
+}
+footer{
+
+    display: flex;
+    justify-content: flex-end ;
+    margin: 250px;
+  
+}
+
+
