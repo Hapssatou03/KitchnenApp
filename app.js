@@ -1,68 +1,39 @@
-"use strict";
-//selection des classes
-const btn = document.querySelector(".btn");
-const form = document.querySelector(".form");
-
-const recettes = [
-  "pate",
-  "Poulet grillet",
-  "Filet de saumon sauce teriyaki à lorange",
-  "Nouilles aux légumes sauce cacahuètes à l'orange",
-  "oeuf",
-];
-// const recetteAleatoir = math.random();
-
-btn.addEventListener("click", () => {
-  getRecette();
-});
-function getRecette() {
-  let searchInputxt = form.value.trim();
-  console.log(searchInputxt.length);
-  fetch(`www.themealdb.com/api/json/v1/1/filter.php?i=${searchInputxt}`).then(
-    (response) =>
-      response.json().then((data) => {
-        console.log(data);
-      })
-  );
-
-  let html = "";
-
-  if (data.meal) {
-    data.meal.forEach((meals) => {
-      html += `<div class="card">
-<div class="meal" ${meals.strMeal}> </div>
-<div class=${meals}> </div>
-<div class=""> 
-    <img src=${meals.png} alt="" srcset="">
-</div>
-<div class=""></div>
-</div> `;
-    });
+document
+  .querySelector(".getRecipeBtn")
+  .addEventListener("click", getRandomRecipe);
+async function getRandomRecipe() {
+  const recipeContainer = document.querySelector(".recipe");
+  recipeContainer.innerHTML = "Chargement..."; // Afficher un message de chargement
+  try {
+    const response = await fetch(
+      "https://www.themealdb.com/api/json/v1/1/random.php"
+    );
+    const data = await response.json();
+    const meal = data.meals[0];
+    // Construire l'affichage de la recette
+    const recipeHTML = ` <h2>${meal.strMeal}</h2>
+     <img src="${meal.strMealThumb}" alt="Image de la recette">
+     <p><strong>Catégorie:</strong> ${
+       meal.strCategory
+     }</p> <p><strong>Instructions:</strong> ${meal.strInstructions}</p> 
+    <h3>Ingrédients:</h3> 
+    <ul> ${getIngredientsList(meal)} </ul> `;
+    // Afficher la recette dans le conteneur
+    recipeContainer.innerHTML = recipeHTML;
+  } catch (error) {
+    recipeContainer.innerHTML = "Une erreur est survenue. Veuillez réessayer.";
+    console.error("Erreur:", error);
   }
 }
-
-getRecette();
-
-// const url =
-//   "https://api.spoonacular.com/recipes/random?apiKey=cd9c2ff5756e45189cecfffac0c2cacd";
-// try {
-//   data = await fetch();
-//   const reponse = await data.json();
-//   console.log(reponse);
-//   return reponse;
-// } catch (error) {
-//   console.error("les recettes demandées ne sont pas accessibleq", error);
-// }
-
-// async function app() {
-//   const ingredients = ["Oeuf", "tomate", "lait", "sel", "farine"];
-//   const recipe = await getRecette(ingredients);
-//   if (recipe < ingredients.length) {
-//     console.log(" ");
-//   }
-//   recipe.forEach((recipes, index) => {
-//     console.log(`${index + 1}. ${recipe.tittle}`);
-
-//     console.log(`le temps de preâration ${recipe.readyTime}`);
-//   });
-// }
+// Fonction pour récupérer les ingrédients et les mesures de la recette
+function getIngredientsList(meal) {
+  let ingredients = "";
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}`];
+    const measure = meal[`strMeasure${i}`];
+    if (ingredient && ingredient.trim()) {
+      ingredients += `<li>${ingredient} - ${measure}</li>`;
+    }
+  }
+  return ingredients;
+}
